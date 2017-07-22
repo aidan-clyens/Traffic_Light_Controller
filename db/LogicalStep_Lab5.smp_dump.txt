@@ -1,0 +1,21 @@
+
+State Machine - |LogicalStep_Lab5_top|Lab5_Moore_SM:INST3|current_state
+Name current_state.RSM current_state.NM current_state.HF current_state.HE current_state.HD current_state.HC current_state.HB current_state.HA current_state.H9 current_state.H8 current_state.H7 current_state.H6 current_state.H5 current_state.H4 current_state.H3 current_state.H2 current_state.H1 current_state.H0 
+current_state.H0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+current_state.H1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+current_state.H2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+current_state.H3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+current_state.H4 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+current_state.H5 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+current_state.H6 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+current_state.H7 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+current_state.H8 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+current_state.H9 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+current_state.HA 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+current_state.HB 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+current_state.HC 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.HD 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.HE 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.HF 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.NM 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+current_state.RSM 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 

@@ -1,0 +1,278 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity Moore_SM is port (
+	Main_CLK, rst_n					:	in std_logic;							--	Clock and reset
+	targetNumber						:	in std_logic_vector(3 downto 0);	--	Target hex number
+	cnt_up, cnt_done, cnt_dwn		:	in std_logic;							--	Boolean conditions displaying counting direction
+	stateNumber							:	out std_logic_vector(3 downto 0)	--	Current hex state number
+);
+end Moore_SM;
+
+architecture MSM of Moore_SM is
+	
+	type STATE_NAMES IS (H0, H1, H2, H3, H4, H5, H6, H7, H8, H9, HA, HB, HC, HD, HE, HF);	--	States from 0 to 15 in hex
+	
+	signal current_state, next_state		:	STATE_NAMES;	--	Temporary buffer for current state
+	
+-----------------------------------------------------------------------------------------
+	
+begin
+		Register_Section: Process (Main_CLK, rst_n, next_state)
+		
+		begin
+			if (rst_n = '0') then		--	If reset is 0, current state is 0
+			
+				current_state <= H0;
+				
+			elsif (rising_edge(main_CLK)) then	--	On the rising edge of the clock pulse, set the current state to the next state
+			
+				current_state <= next_state;
+				
+			end if;
+			
+		end process;
+
+-----------------------------------------------------------------------------------------
+
+	Transition_Section: process (targetNumber(3 downto 0), current_state, cnt_done, cnt_up, cnt_dwn)
+		
+	begin
+	
+		case current_state is
+			
+			when H0 =>							
+				if(cnt_done = '1') then			--	If counting is done, remain at current state
+					next_state <= H0;			
+				elsif (cnt_up = '1') then		--	If counting up, set current state to next state
+					next_state <= H1;
+				else		--	If counting down, set current state to previous state
+					next_state <= H0;
+				end if;
+				
+			when H1 =>
+				if(cnt_done = '1') then
+					next_state <= H1;
+				elsif (cnt_up = '1') then
+					next_state <= H2;
+				else
+					next_state <= H0;
+				end if;
+				
+			when H2 =>
+				if(cnt_done = '1') then
+					next_state <= H2;
+				elsif (cnt_up = '1') then
+					next_state <= H3;
+				else 
+					next_state <= H1;
+				end if;
+				
+			when H3 =>
+				if(cnt_done = '1') then
+					next_state <= H3;
+				elsif (cnt_up = '1') then
+					next_state <= H4;
+				else 
+					next_state <= H2;
+				end if;
+				
+			when H4 =>
+				if(cnt_done = '1') then
+					next_state <= H4;
+				elsif (cnt_up = '1') then
+					next_state <= H5;
+				else 
+					next_state <= H3;
+				end if;
+			when H5 =>
+				if(cnt_done = '1') then
+					next_state <= H5;
+				elsif (cnt_up = '1') then
+					next_state <= H6;
+				else
+					next_state <= H4;
+				end if;
+				
+			when H6 =>
+				if(cnt_done = '1') then
+					next_state <= H6;
+				elsif (cnt_up = '1') then
+					next_state <= H7;
+				else 
+					next_state <= H5;
+				end if;
+				
+			when H7 =>
+				if(cnt_done = '1') then
+					next_state <= H7;
+				elsif (cnt_up = '1') then
+					next_state <= H8;
+				else 
+					next_state <= H6;
+				end if;
+				
+			when H8 =>
+				if(cnt_done = '1') then
+					next_state <= H8;
+				elsif (cnt_up = '1') then
+					next_state <= H9;
+				else 
+					next_state <= H7;
+				end if;
+				
+			when H9 =>
+				if(cnt_done = '1') then
+					next_state <= H9;
+				elsif (cnt_up = '1') then
+					next_state <= HA;
+				else 
+					next_state <= H8;
+				end if;
+				
+			when HA =>
+				if(cnt_done = '1') then
+					next_state <= HA;
+				elsif (cnt_up = '1') then
+					next_state <= HB;
+				else
+					next_state <= H9;
+				end if;
+				
+			when HB =>
+				if(cnt_done = '1') then
+					next_state <= HB;
+				elsif (cnt_up = '1') then
+					next_state <= HC;
+				else
+					next_state <= HA;
+				end if;
+				
+			when HC =>
+				if(cnt_done = '1') then
+					next_state <= HC;
+				elsif (cnt_up = '1') then
+					next_state <= HD;
+				else
+					next_state <= HB;
+				end if;
+				
+			when HD =>
+				if(cnt_done = '1') then
+					next_state <= HD;
+				elsif (cnt_up = '1') then
+					next_state <= HE;
+				else 
+					next_state <= HC;
+				end if;
+				
+			when HE =>
+				if(cnt_done = '1') then
+					next_state <= HE;
+				elsif (cnt_up = '1') then
+					next_state <= HF;
+				else
+					next_state <= HD;
+				end if;
+				
+			when HF =>
+				if(cnt_done = '1') then
+					next_state <= HF;
+				elsif (cnt_up = '1') then
+					next_state <= HF;
+				else
+					next_state <= HE;
+				end if;
+				
+			when others =>
+				next_state <= H0;		--	For exceptions, reset to default state of 0
+				
+		end case;
+		
+	end process;
+	
+		   
+		
+--------------------------------------------------------------------------------------------
+		
+	Decoder_Section: process (current_state)
+	begin
+	
+	case current_state is				--	Hex to binary decoder
+			
+			when H0 =>
+				stateNumber <= "0000";
+				
+				
+			when H1 =>
+				stateNumber <= "0001";
+				
+				
+			when H2 =>
+				stateNumber <= "0010";
+
+				
+			when H3 =>
+				stateNumber <= "0011";
+
+				
+			when H4 =>
+				stateNumber <= "0100";
+
+			
+			when H5 =>
+				stateNumber <= "0101";
+
+				
+			when H6 =>
+				stateNumber <= "0110";
+
+				
+			when H7 =>
+				stateNumber <= "0111";
+
+				
+			when H8 =>
+				stateNumber <= "1000";
+
+				
+			when H9 =>
+				stateNumber <= "1001";
+
+				
+			when HA =>
+				stateNumber <= "1010";
+
+				
+			when HB =>
+				stateNumber <= "1011";
+
+				
+			when HC =>
+				stateNumber <= "1100";
+
+				
+			when HD =>
+				stateNumber <= "1101";
+
+				
+			when HE =>
+				stateNumber <= "1110";
+
+				
+			when HF =>
+				stateNumber <= "1111";
+
+				
+			when others =>
+				stateNumber <= "0000";
+
+		end case;
+
+		
+		
+	end process;
+
+	
+end MSM;
